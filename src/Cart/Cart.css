@@ -1,0 +1,12 @@
+.cart-product-card-container {
+    display: flex;
+    align-items: center;
+}
+
+.cart-product-card-text-container {
+    padding: 0 1rem;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

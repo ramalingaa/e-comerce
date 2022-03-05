@@ -1,0 +1,99 @@
+
+  .address-wrapper-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .form-input {
+    position: relative;
+  }
+  .form-flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .error-message {
+    color: red;
+  }
+  .form-wrapper {
+      width: 90%;
+      margin: auto;
+      position: relative;
+      padding: 1rem 0
+  }
+  .input-label {
+    position: absolute;
+    top: 15px;
+    padding: 0 0 0 1rem;
+    display:none
+  }
+ .i-text {
+     padding: 1rem;
+     font-size: inherit;
+ }
+
+ input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.add-new-button {
+    text-align: center;
+    margin: 1rem;
+}
+/* address card csse */
+
+.address-card-container {
+    background-color: rgb(219, 219, 219);
+    padding: 1rem;
+    display:flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    text-transform: capitalize;
+    margin: 0.5rem 0;
+
+}
+.saved-address {
+    padding: 0.5rem;
+}
+.saved-address-title {
+    padding:0 0 0.5rem 0;
+}
+.edit-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background:rgb(192, 190, 190);
+  height: 100%;
+}
+.edit-form >form > div> div > input {
+  width:100%;
+  padding: 0.5rem 0 0.5rem 0;
+  
+}
+.edit-form >form > button {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+}
+.addNewAddress-icon {
+  padding: 0 0.5rem 0 0;
+}
+.cancel-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 10px;
+  padding: 0.5rem;
+  border-radius:50%;
+  background-color: transparent;
+  border: 0;
+  font-size: 1rem;
+
+}
+.saved-address-wrapper {
+  width: 20rem;
+  margin: auto;
+}
