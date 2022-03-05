@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useRef } from 'react'
 import "./ProductList.css"
 import {useState} from "react"
 import {useWishCounter} from "../WishlistCounter"
@@ -17,6 +17,7 @@ export default function ProductList({pInfo, wishPage}) {
 
   // const [isCartItem, setisCartItem] = useState(false)
   const [addToCartData, setAddToCartData] = useState({})
+  const isWishRef = useRef(false)
   console.log("wishData", wishData)
 
   //setting the wishicon with previosly selected wishitems
@@ -24,7 +25,7 @@ export default function ProductList({pInfo, wishPage}) {
     const isWishItemAdded = wishData.filter((ele)=> ele.image ===pInfo.image )
     console.log("isWishItemAdded", isWishItemAdded)
     if(isWishItemAdded.length > 0){
-      setIsWishItem(true)
+      isWishRef.current = true
     }
   },[wishData])
  // Wishlist icon button functionality on click of button
@@ -37,7 +38,7 @@ export default function ProductList({pInfo, wishPage}) {
         try {
           const response = await axios.delete(`https://6217d5f51a1ba20cba924689.mockapi.io/api/wishlist/${pInfo.id}`)
           if(response.status === 200){
-            setIsWishItem(false)
+            isWishRef.current = false
             setWishIcon("")
             setWishData([...newWishListData])
             setWishCounter((prev)=> prev - 1)
@@ -51,11 +52,11 @@ export default function ProductList({pInfo, wishPage}) {
     //product page functionality for addto wishlist button
     else {
       //If not added to wishlist the item will be added to wishlist. The intial state is false so it get's added to wishlist on first click
-      if(!isWishItem){
+      if(!isWishRef.current){
         (async ()=>{
           try {
             await axios.post("https://6217d5f51a1ba20cba924689.mockapi.io/api/wishlist",pInfo)
-            setIsWishItem(true)
+            isWishRef.current = true
             setWishIcon("icon-selected")
             setWishCounter((prev)=> prev + 1)
           }
@@ -69,7 +70,7 @@ export default function ProductList({pInfo, wishPage}) {
         (async ()=>{
           try {
             await axios.delete(`https://6217d5f51a1ba20cba924689.mockapi.io/api/wishlist/${pInfo.id}`)
-            setIsWishItem(false)
+            isWishRef.current = false
             setWishIcon("")
             setWishCounter((prev)=> prev - 1)
           }
@@ -165,7 +166,7 @@ export default function ProductList({pInfo, wishPage}) {
         }
         {/* <button onClick = {addToWishList}><i className={`fas fa-heart product-wishlist-icon ${wishIcon}`}></i></button> */}
         {wishPage && <button onClick = {addToWishList}><i className={`fas fa-heart product-wishlist-icon icon-selected`}></i></button>}
-        {!wishPage && (isWishItem ?<button onClick = {addToWishList}><i className={`fas fa-heart product-wishlist-icon icon-selected`}></i></button>:<button onClick = {addToWishList}><i className={`fas fa-heart product-wishlist-icon`}></i></button>)}
+        {!wishPage && (isWishRef.current ?<button onClick = {addToWishList}><i className={`fas fa-heart product-wishlist-icon icon-selected`}></i></button>:<button onClick = {addToWishList}><i className={`fas fa-heart product-wishlist-icon`}></i></button>)}
     </div>
   )
 }
