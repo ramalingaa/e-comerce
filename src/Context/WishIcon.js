@@ -1,10 +1,12 @@
-import { createContext, useContext,useEffect,useState } from "react"
+import { createContext, useContext,useEffect,useState, useRef } from "react"
 import axios from "axios"
 const WishIcon = createContext()
 const useWish = ()=> useContext(WishIcon)
 
 const IconProvider = ({children})=> {
     const [wishData, setWishData] = useState([])
+    const isWishRef = useRef(false)
+
     useEffect(()=> {
         (async ()=>{
     
@@ -21,7 +23,7 @@ const IconProvider = ({children})=> {
     
     
     return (
-        <WishIcon.Provider value = {{wishData,setWishData}}>
+        <WishIcon.Provider value = {{wishData,setWishData,isWishRef}}>
             {children}
         </WishIcon.Provider>
     )

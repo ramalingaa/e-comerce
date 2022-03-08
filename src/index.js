@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {PageContextProvider} from './PageContext';
-import {IconProvider} from "./WishIcon"
+import {PageContextProvider} from './Context/PageContext';
+import {IconProvider} from "./Context/WishIcon"
 
 ReactDOM.render(
   <React.StrictMode>  

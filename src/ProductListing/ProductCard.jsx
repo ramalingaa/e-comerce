@@ -1,5 +1,6 @@
 import React from 'react'
 import "./ProductList.css"
+import { Suspense } from 'react'
 import Filter from './Filter'
 
 import { useState } from 'react'
@@ -13,6 +14,7 @@ export default function ProductCard({serverData}) {
         <Filter setCardDisplay = {setCardDisplay}/>
         <div>
         <p className="products-number-title"><strong>Showing All Products</strong> <small>({serverData.length} Products)</small> </p>
+        
         <div className = {cardDisplay}>
           
             {

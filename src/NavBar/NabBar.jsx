@@ -1,6 +1,6 @@
 import './NavBar.css';
-import {useWishCounter} from "../WishlistCounter"
-import {useCartCounter} from "../CartItemCounter"
+import {useWishCounter} from "../Context/WishlistCounter"
+import {useCartCounter} from "../Context/CartItemCounter"
 export default function Navbar() {
     const {wishCounter} = useWishCounter()
     const {cartCounter} = useCartCounter()

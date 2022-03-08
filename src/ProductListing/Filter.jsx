@@ -2,9 +2,11 @@ import './Filter.css';
 import {useState} from "react"
 import {useMediaQuery} from "react-responsive"
 import { useEffect } from 'react';
+import {useProductContext} from "../Context/ProductContext"
 export default function Filter({setCardDisplay}){
     const [filterDisplay, setFilterDisplay] = useState("display-none")
     const isDevideLarge = useMediaQuery({query:"(min-width: 1220px)"})
+    const { dispatch } = useProductContext()
     useEffect(()=>{
         if(isDevideLarge){
             setFilterDisplay('display-block')
@@ -14,6 +16,7 @@ export default function Filter({setCardDisplay}){
             setFilterDisplay('display-none')
         }
     },[isDevideLarge])
+    
     const showFilterSection = ()=>{
             
 
@@ -46,38 +49,43 @@ export default function Filter({setCardDisplay}){
                     <a href="#">Clear</a>
                 </div>
                 <div className="price-range-container">
-                    <p className="fw-7">Price</p>
+                    <div className = "product-filter-heading">
+                        <p className="fw-7">Price</p>
+                        <button onClick = {() => dispatch({type:"RESET_PRICE"})} className = "filter-resetBtn">Reset</button>
+                    </div>
+                    
                 <div>
                     <div className="price-range-values">
                         <p>100</p>
                         <p>2000</p>
                         <p>5000</p>
                     </div>
-                    <input type="range" min={0} max={5000} className="price-slider" />
+                    <input type="range" min={100} max={5000} className="price-slider" onChange = {(e) => dispatch({type:"PRICE_FILTER",payload:e.target.value})}/>
+                    
                 </div>
                 </div>
                 <div className="input-filter-container">
                     <p className="fw-7">Category</p>
-                    <ul className="check-lists">
-                        <li><label htmlFor="men-category"><input type="checkbox" id="men-category" className = "input-spacing"/>Mens Clothing</label></li>
-                        <li><label htmlFor="women-category"><input type="checkbox" id="women-category"/>Women Clothing</label></li>
-                        <li><label htmlFor="kids-category"><input type="checkbox" id="kids-category"/>Kids Clothing</label></li>
+                    <ul className="check-lists" onChange = {(e) => dispatch({type:"CAT_FILTER",payload:e.target.value})}>
+                        <li><label htmlFor="men-category"><input type="radio" name = "gender-category"id="men-category" value = "Men"/>Mens Clothing</label></li>
+                        <li><label htmlFor="women-category"><input type="radio" name = "gender-category" id="women-category" value = "Women"/>Women Clothing</label></li>
+                        <li><label htmlFor="kids-category"><input type="radio" name = "gender-category" id="kids-category" value = "Kids"/>Kids Clothing</label></li>
                     </ul>
                 </div>
                 <div className="input-filter-container">
                     <p className="fw-7">Rating</p>
-                    <ul className="check-lists">
-                         <li><label htmlFor="four-stars"><input type="radio" name="star-rating" id="four-stars"/>4 Stars &amp; above</label></li>
-                         <li><label htmlFor="three-stars"><input type="radio" name="star-rating" id="three-stars"/>3 Stars &amp; above</label></li>
-                         <li><label htmlFor="two-stars"><input type="radio" name="star-rating" id="two-stars"/>2 Stars &amp; above</label></li>
-                         <li><label htmlFor="one-stars"><input type="radio" name="star-rating" id="one-stars"/>1 Stars &amp; above</label></li>
+                    <ul className="check-lists" onChange = {(e) => dispatch({type:"RATING_FILTER",payload:e.target.value})}>
+                         <li><label htmlFor="four-stars"><input type="radio" name="star-rating" id="four-stars" value = {4}/>4 Stars &amp; above</label></li>
+                         <li><label htmlFor="three-stars"><input type="radio" name="star-rating" id="three-stars" value = {3}/>3 Stars &amp; above</label></li>
+                         <li><label htmlFor="two-stars"><input type="radio" name="star-rating" id="two-stars" value = {2}/>2 Stars &amp; above</label></li>
+                         <li><label htmlFor="one-stars"><input type="radio" name="star-rating" id="one-stars" value = {1}/>1 Stars &amp; above</label></li>
                     </ul>
                 </div>
                 <div className="input-filter-container">
                     <p className="fw-7">Sort by</p>
-                    <ul className="check-lists">
-                          <li><label htmlFor="low-to-high"><input type="radio" name="sort-by" id="low-to-high"/>Price - Low to High</label></li>
-                          <li><label htmlFor="high-to-low"><input type="radio" name="sort-by" id="high-to-low"/>Price - High to Low</label></li>                        
+                    <ul className="check-lists" onClick = {(e) => dispatch({type:"SORT_BY_PRICE",payload:e.target.value})}>
+                          <li><label htmlFor="low-to-high"><input type="radio" name="sort-by" id="low-to-high" value = {"lowToHigh"}/>Price - Low to High</label></li>
+                          <li><label htmlFor="high-to-low"><input type="radio" name="sort-by" id="high-to-low" value = "highToLow"/>Price - High to Low</label></li>                        
                     </ul>
                     </div>
             </aside>

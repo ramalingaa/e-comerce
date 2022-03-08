@@ -20,6 +20,12 @@
     gap: 1rem;
     padding: 1.5rem 0;
 }
+.filter-resetBtn {
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size: inherit;
+}
 .price-slider {
     width: 100%;
 }

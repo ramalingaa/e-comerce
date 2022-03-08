@@ -3,10 +3,12 @@ import Address from "./Address/Address";
 import NavBar from "./NavBar/NabBar"
 import Wishlist from "./Wishlist/Wishlist"
 import Product from "./ProductListing/Product"
-import {usePage} from "./PageContext"
-import {IconProvider} from "./WishIcon"
-import {WishCounterProvider} from "./WishlistCounter"
-import {CartCounterProvider} from "./CartItemCounter"
+import {usePage} from "./Context/PageContext"
+import {IconProvider} from "./Context/WishIcon"
+import {WishCounterProvider} from "./Context/WishlistCounter"
+import {CartCounterProvider} from "./Context/CartItemCounter"
+import {ProductProvider} from "./Context/ProductContext"
+import { CartProvider } from "./Context/CartContext"
 import Cart  from "./Cart/Cart"
 function App() {
   const {page, clickHandler} = usePage()
@@ -18,16 +20,19 @@ function App() {
        <WishCounterProvider> 
         <IconProvider>
         <CartCounterProvider>
-
+        <CartProvider>
           <div>
                <NavBar />
-              
-               {page === "Products" &&<Product />}
+              <ProductProvider>
+                  {page === "Products" &&<Product />}
+               </ProductProvider>
+
             {page === "Wishlist" &&<Wishlist />}
             {page === "Cart" &&<Cart />}
             {/* <Cart /> */}
 
           </div>
+          </CartProvider>
           </CartCounterProvider>
 
         </IconProvider>
