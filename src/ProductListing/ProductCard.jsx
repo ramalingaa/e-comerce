@@ -1,6 +1,5 @@
 import React from 'react'
 import "./ProductList.css"
-import { Suspense } from 'react'
 import Filter from './Filter'
 
 import { useState } from 'react'

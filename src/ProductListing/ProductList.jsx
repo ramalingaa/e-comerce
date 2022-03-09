@@ -19,20 +19,21 @@ export default function ProductList({pInfo, wishPage}) {
   const [wishIcon, setWishIcon] = useState("")
   const [isCartItem, setIsCartItem] = useState(false)
   const [cartItem, setCartItem] = useState({})
+  const [wishItem, setWishItem] = useState({})
 
   const {setWishCounter} = useWishCounter()
   const {wishData,setWishData} = useWish()
   const {setCartCounter} = useCartCounter()
   const { cartData, setCartData } = useCartContext()
 
-  // console.log("wishData", wishData)
-  // console.log(typeof(pInfo.quantity),"Pinfo")
+  
 
   //setting the wishicon with previosly selected wishitems
   useEffect(()=>{
-    const isWishItemAdded = wishData.filter((ele)=> ele.image ===pInfo.image )
-    if(isWishItemAdded.length > 0){
+    const isWishItemAdded = wishData.find((ele) => ele.image === pInfo.image)
+    if(isWishItemAdded){
       setIsWishItem(true)
+      setWishItem({...isWishItemAdded})
     }
   },[wishData])
 
@@ -43,8 +44,9 @@ export default function ProductList({pInfo, wishPage}) {
       setCartItem({...isCartItemAdded})
     }
   },[cartData])
+  
  // Wishlist icon button functionality on click of button
-  const addToWishList = addToWishlistFunction(wishPage, wishData, pInfo, setIsWishItem, setWishIcon, setWishData, setWishCounter, isWishItem)
+  const addToWishList = addToWishlistFunction(wishPage, wishData, pInfo, setIsWishItem, setWishIcon, setWishData, setWishCounter, isWishItem, wishItem)
 
     //Add to cart button functionality goes here
     const addToCart = addToCartFunction(pInfo, setCartData, setCartCounter)

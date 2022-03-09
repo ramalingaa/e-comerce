@@ -3,33 +3,40 @@ import "./Cart.css"
 import  axios  from 'axios';
 import { useCartContext } from "../Context/CartContext"
 import { useCartCounter } from "../Context/CartItemCounter"
+import { incrementFunction } from "../ProductListing/incrementFunction"
+import { decrementFunction } from "../ProductListing/decrementCartItems"
+import { useState, useEffect } from "react"
+import {useWish} from "../Context/WishIcon"
+import { useWishCounter }  from "../Context/WishlistCounter"
 
 export default function CartCard({pInfo}) {
+  const [wishlistBtn, setWishlistBtn] = useState("Move to Wishlist")
   const { cartData, setCartData } = useCartContext()
-const { setCartCounter } = useCartCounter()
-  const incrementCartItems = ()=> {
-      
-    (async ()=>{
-      try {
-        const newCartData = cartData.filter((ele) => ele.id !== pInfo.id)
-        const response = await axios.put(`https://6217d5f51a1ba20cba924689.mockapi.io/api/cart/${pInfo.id}`,{...pInfo,quantity: ++pInfo.quantity})
-        setCartData((prev) => [...newCartData,response.data])
-        // console.log(response.data,"cart data")
-      }
-      catch(e){
-        console.log("Adding to Cart failed", e)
-      }
-    })()
-  }
+  const { setCartCounter } = useCartCounter()
+  const { wishData, setWishData } = useWish()
+  const { setWishCounter }  = useWishCounter()
 
+  useEffect(() => {
+    const isCartItemInWishData = wishData.filter((ele) => ele.image === pInfo.image)
+    console.log(isCartItemInWishData,"Ffrom cart")
+    if(isCartItemInWishData.length > 0) {
+      setWishlistBtn(() => "Wishlisted")
+    }
+  }, [])
+ 
+ 
+
+  const incrementCartItems = incrementFunction(cartData, pInfo,pInfo,setCartData)
+  // const decrementCartItems = decrementFunction(pInfo, cartData, pInfo, setCartData, setCartCounter)
   const decrementCartItems = ()=> {
-    if(pInfo.quantity > 1){
+    if(Number(pInfo.quantity) > 1){
       (async ()=>{
         try {
-          const newCartData = cartData.filter((ele) => ele.id !== pInfo.id)
-          const response = await axios.put(`https://6217d5f51a1ba20cba924689.mockapi.io/api/cart/${pInfo.id}`,{...pInfo,quantity: --pInfo.quantity})
-          // setCartButton("Added to Cart")
-          setCartData((prev) => [...newCartData,response.data])
+          const newDecrementData = JSON.parse(JSON.stringify(cartData));
+          const indexOFCartItem = newDecrementData.findIndex((ele) => ele.image === pInfo.image)
+          --newDecrementData[indexOFCartItem].quantity
+          await axios.put(`https://6217d5f51a1ba20cba924689.mockapi.io/api/cart/${pInfo.id}`,{...pInfo,quantity: --pInfo.quantity})
+          setCartData((prev) => [...newDecrementData])
           
 
 
@@ -40,12 +47,11 @@ const { setCartCounter } = useCartCounter()
       })()
 
     }
-    else if (pInfo.quantity === 1){
+    else if (Number(pInfo.quantity) === 1){
       (async ()=>{
         try {
           const newCartData = cartData.filter((ele) => ele.id !== pInfo.id)
           await axios.delete(`https://6217d5f51a1ba20cba924689.mockapi.io/api/cart/${pInfo.id}`)
-          // setCartButton("Added to Cart")
           setCartData(() => newCartData)
           setCartCounter((prev)=> prev - 1)
         }
@@ -55,6 +61,22 @@ const { setCartCounter } = useCartCounter()
       })()
     }
   }
+  const addToWishlist = () => {
+    (async () => {
+      try {
+        const response = await axios.post("https://6217d5f51a1ba20cba924689.mockapi.io/api/wishlist", pInfo);
+
+        setWishData((prev) => [...prev, response.data]);
+        
+        setWishCounter((prev) => prev + 1);
+        setWishlistBtn(() => "Wishlisted")
+      }
+      catch (e) {
+        console.log("Adding to wishlist failed", e);
+      }
+    })();
+  }
+
   return (
     <div className="cart-product-card-container">
         <div>
@@ -69,7 +91,7 @@ const { setCartCounter } = useCartCounter()
                 <p>Quantity: {pInfo.quantity}</p>
                 <button className="quantity-btn" onClick = {incrementCartItems}><i className="fas fa-plus"></i></button>
             </div>
-            <button className="btn primary">Move to Wishlist</button>
+            {wishlistBtn === "Move to Wishlist"?<button className="btn primary" onClick = {addToWishlist}>{wishlistBtn}</button>:<button className="btn disabled" disabled>{wishlistBtn}</button>}
             <button ><i className="fas fa-times product-wishlist-icon cart-product-icon"></i></button>
         </div>
     </div>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function addToWishlistFunction(wishPage, wishData, pInfo, setIsWishItem, setWishIcon, setWishData, setWishCounter, isWishItem) {
+export function addToWishlistFunction(wishPage, wishData, pInfo, setIsWishItem, setWishIcon, setWishData, setWishCounter, isWishItem,wishItem) {
   return () => {
     //If wishpage is open if condition will get executed
     if (wishPage) {
@@ -29,9 +29,9 @@ export function addToWishlistFunction(wishPage, wishData, pInfo, setIsWishItem, 
       if (!isWishItem) {
         (async () => {
           try {
-            await axios.post("https://6217d5f51a1ba20cba924689.mockapi.io/api/wishlist", pInfo);
+            const response = await axios.post("https://6217d5f51a1ba20cba924689.mockapi.io/api/wishlist", pInfo);
             setIsWishItem(true);
-            setWishData((prev) => [...prev, pInfo]);
+            setWishData((prev) => [...prev, response.data]);
             setWishIcon("icon-selected");
             setWishCounter((prev) => prev + 1);
           }
@@ -46,7 +46,7 @@ export function addToWishlistFunction(wishPage, wishData, pInfo, setIsWishItem, 
       else {
         (async () => {
           try {
-            await axios.delete(`https://6217d5f51a1ba20cba924689.mockapi.io/api/wishlist/${pInfo.id}`);
+            await axios.delete(`https://6217d5f51a1ba20cba924689.mockapi.io/api/wishlist/${wishItem.id}`);
             setIsWishItem(false);
             setWishIcon("");
             setWishCounter((prev) => prev - 1);

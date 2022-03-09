@@ -5,7 +5,6 @@ export function addToCartFunction(pInfo, setCartData, setCartCounter) {
     (async () => {
 
       try {
-        // const cartItemInfo = {...pInfo,quantity:1}
         const response = await axios.post("https://6217d5f51a1ba20cba924689.mockapi.io/api/cart", pInfo);
         setCartData((prev) => [...prev, response.data]);
         setCartCounter((prev) => prev + 1);
