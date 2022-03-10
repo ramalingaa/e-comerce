@@ -1,10 +1,13 @@
 import './NavBar.css';
-import {useWishCounter} from "../Context/WishlistCounter"
-import {useCartCounter} from "../Context/CartItemCounter"
+import { useWishCounter, useCartCounter, useProductContext, usePage } from "../Context/context-index"
+
+
 export default function Navbar() {
+    const {dispatch} = useProductContext()
     const {wishCounter} = useWishCounter()
     const {cartCounter} = useCartCounter()
-
+    const {setPage} = usePage()
+    
     return (
       <nav className="navbar ">
         <div>
@@ -19,7 +22,7 @@ export default function Navbar() {
             type="text"
             className="i-text navbar-input-search"
             placeholder="Search for products, brands and more"
-          />
+          onChange = {(e) => dispatch({type:"SEARCH_FILTER", payload:e.target.value})} onKeyPress={(e) => e.key === "Enter" && setPage(() => "Products")}/>
         </div>
         <div className="navbar-cart">
           <button className="btn primary">

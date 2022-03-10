@@ -1,15 +1,12 @@
 import React from 'react'
 import "./Cart.css"
 import  axios  from 'axios';
-import { useCartContext } from "../Context/CartContext"
-import { useCartCounter } from "../Context/CartItemCounter"
-import { incrementFunction } from "../ProductListing/incrementFunction"
-import { decrementFunction } from "../ProductListing/decrementCartItems"
+import { useCartContext, useCartCounter, useWish, useWishCounter } from "../Context/context-index"
+import { incrementFunction } from "../ProductListing/product-function/product-fun-index"
 import { useState, useEffect } from "react"
-import {useWish} from "../Context/WishIcon"
-import { useWishCounter }  from "../Context/WishlistCounter"
 
 export default function CartCard({pInfo}) {
+  
   const [wishlistBtn, setWishlistBtn] = useState("Move to Wishlist")
   const { cartData, setCartData } = useCartContext()
   const { setCartCounter } = useCartCounter()
@@ -18,7 +15,6 @@ export default function CartCard({pInfo}) {
 
   useEffect(() => {
     const isCartItemInWishData = wishData.filter((ele) => ele.image === pInfo.image)
-    console.log(isCartItemInWishData,"Ffrom cart")
     if(isCartItemInWishData.length > 0) {
       setWishlistBtn(() => "Wishlisted")
     }
@@ -27,7 +23,6 @@ export default function CartCard({pInfo}) {
  
 
   const incrementCartItems = incrementFunction(cartData, pInfo,pInfo,setCartData)
-  // const decrementCartItems = decrementFunction(pInfo, cartData, pInfo, setCartData, setCartCounter)
   const decrementCartItems = ()=> {
     if(Number(pInfo.quantity) > 1){
       (async ()=>{

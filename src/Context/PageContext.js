@@ -8,7 +8,7 @@ const PageContextProvider = ({children})=> {
     const clickHandler = (e)=> setPage(e.target.innerText)
     
     return (
-        <PageContext.Provider value = {{page,clickHandler}}>
+        <PageContext.Provider value = {{page,clickHandler, setPage}}>
             {children}
         </PageContext.Provider>
     )

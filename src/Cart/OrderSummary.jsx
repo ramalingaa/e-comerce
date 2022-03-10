@@ -1,9 +1,8 @@
 import React from 'react'
 import "./Cart.css"
-import { useCartCounter } from "../Context/CartItemCounter"
-import { useCartContext } from "../Context/CartContext"
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useCartCounter, useCartContext } from "../Context/context-index"
+import { useState, useEffect } from 'react';
+
 export default function OrderSummary() {
     const { cartData } = useCartContext()
     const {cartCounter} = useCartCounter()

@@ -30,7 +30,7 @@
     /* font-weight: bold; */
     text-align: center;
 }
-.res-img {
+.product-img {
     width: 95%;
     height: 10rem;
     background-color: rgb(223, 223, 223);
@@ -83,7 +83,7 @@
         width: 100%;
         
     }
-    .res-img {
+    .product-img {
         height: 15rem;
       
     }

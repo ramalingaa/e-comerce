@@ -23,9 +23,9 @@ export function addToWishlistFunction(wishPage, wishData, pInfo, setIsWishItem, 
     }
 
 
-    //product page functionality for addto wishlist button
+    //product page functionality for add to wishlist button
     else {
-      //If not added to wishlist the item will be added to wishlist. The intial state is false so it get's added to wishlist on first click
+      //If not added to wishlist the item will be added to wishlist. The initial state is false so it get's added to wishlist on first click
       if (!isWishItem) {
         (async () => {
           try {
@@ -46,9 +46,11 @@ export function addToWishlistFunction(wishPage, wishData, pInfo, setIsWishItem, 
       else {
         (async () => {
           try {
+            const newWishData = wishData.filter((ele) => ele.id !== wishItem.id)
             await axios.delete(`https://6217d5f51a1ba20cba924689.mockapi.io/api/wishlist/${wishItem.id}`);
             setIsWishItem(false);
             setWishIcon("");
+            setWishData((prev) => newWishData)
             setWishCounter((prev) => prev - 1);
           }
           catch (e) {

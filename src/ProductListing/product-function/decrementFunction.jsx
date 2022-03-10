@@ -6,7 +6,7 @@ export function decrementFunction(cartItem, cartData, pInfo, setCartData, setCar
       (async () => {
         try {
           const newDecrementData = JSON.parse(JSON.stringify(cartData));
-          const indexOFCartItem = newDecrementData.findIndex((ele) => ele.image === pInfo.image)
+          const indexOFCartItem = newDecrementData.findIndex((ele) => ele.image === cartItem.image)
           --newDecrementData[indexOFCartItem].quantity
           await axios.put(`https://6217d5f51a1ba20cba924689.mockapi.io/api/cart/${cartItem.id}`, { ...cartItem, quantity: --cartItem.quantity });
           setCartData(() => newDecrementData);
@@ -23,7 +23,7 @@ export function decrementFunction(cartItem, cartData, pInfo, setCartData, setCar
     else if (Number(cartItem.quantity) === 1) {
       (async () => {
         try {
-          const newCartData = cartData.filter((ele) => ele.id !== pInfo.id);
+          const newCartData = cartData.filter((ele) => ele.id !== cartItem.id);
           await axios.delete(`https://6217d5f51a1ba20cba924689.mockapi.io/api/cart/${cartItem.id}`);
           
           setCartData(() => newCartData);

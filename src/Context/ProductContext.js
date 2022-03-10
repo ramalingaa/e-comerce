@@ -1,55 +1,29 @@
 
 import { createContext, useContext, useEffect,useReducer } from 'react';
 import  axios  from 'axios';
+import {getSearchData, getSortedData, getPriceFilteredData, getCatFilteredData, getfilteredProductsData, productReducer} from "./product-context-function/filter-function"
 
 const ProductContext = createContext()
 const useProductContext = () => useContext(ProductContext)
 
 const ProductProvider = ({children}) => {
 
-    const productReducer = (state, action) => {
-        switch(action.type){
-            case "SET_SERVER_DATA": {
-                return {...state,serverData:action.payload,data:action.payload, userPrefdata: action.payload}
-            }
-            case "PRICE_FILTER" : {
-                const priceFilterData = state.userPrefdata.filter((ele) => Number(ele.price) < action.payload)
-                console.log((action.payload),priceFilterData)
-                return {...state, data: priceFilterData}
-            }
-            case "CAT_FILTER" : {
-                const catFilterData = state.data.filter((ele) => ele.category === action.payload)
-                return {...state,data:catFilterData}
-            }
-            case "RESET_PRICE" : {
-                return {...state, data:state.serverData}
-            }
-            case "RATING_FILTER": {
-                console.log(action.payload,"from filter")
-                const ratingFilterData = state.serverData.filter((ele) => Number(ele.rating) >= action.payload)
-                console.log((ratingFilterData))
-                return {...state, data: ratingFilterData}
-            }
-            case "SORT_BY_PRICE": {
-                    console.log(action.payload,"payload")
-                    if(action.payload === "lowToHigh"){
-                        const sortLowToHigh = JSON.parse(JSON.stringify(state))
-                        sortLowToHigh.serverData.sort((firstEl, secondEl) =>Number(firstEl.price) - Number(secondEl.price) )
-                        return {...state,data:sortLowToHigh.serverData}
-                    }
-                    else {
-                        const sortLowToHigh = JSON.parse(JSON.stringify(state))
-                        sortLowToHigh.serverData.sort((firstEl, secondEl) =>Number(secondEl.price) - Number(firstEl.price) )
-                        return {...state,data:sortLowToHigh.serverData}
-                    }
-                    
-                
-            }
-            default:{
-            }
-        }
-    }
-    const [state, dispatch] = useReducer(productReducer,{serverData:[],data:[],userPrefdata:[]})
+    
+    const [state, dispatch] = useReducer(productReducer,{data:[],filter:{
+        sortBy:"",
+        priceRange: 5000,
+        category: {men:false,women:false,kids:false},
+        rating: ""
+
+    }})
+
+    
+    //filter data flow functions
+    const navSearchData = getSearchData(state.data, state.filter.search)
+    const sortedData = getSortedData(navSearchData, (state.filter.sortBy))
+    const priceFilterData = getPriceFilteredData(sortedData,state.filter.priceRange)
+    const categortyFilterData = getCatFilteredData(priceFilterData,state.filter.category)
+    const filterProductsData = getfilteredProductsData(categortyFilterData, state.filter.rating)
 
     useEffect(()=>{
         (async ()=>{
@@ -62,8 +36,10 @@ const ProductProvider = ({children}) => {
             }
         })()
       },[])
+
+      
     return (
-        <ProductContext.Provider value = {{state, dispatch}}>
+        <ProductContext.Provider value = {{filterProductsData, dispatch}}>
             {children}
         </ProductContext.Provider>
     )

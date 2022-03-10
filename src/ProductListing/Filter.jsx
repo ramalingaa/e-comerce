@@ -1,8 +1,8 @@
 import './Filter.css';
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import {useMediaQuery} from "react-responsive"
-import { useEffect } from 'react';
-import {useProductContext} from "../Context/ProductContext"
+import { useProductContext } from "../Context/context-index"
+
 export default function Filter({setCardDisplay}){
     const [filterDisplay, setFilterDisplay] = useState("display-none")
     const isDevideLarge = useMediaQuery({query:"(min-width: 1220px)"})
@@ -46,13 +46,10 @@ export default function Filter({setCardDisplay}){
             <aside className={`product-filter-section ${filterDisplay}`}>
                 <div className="product-filter-heading">
                     <p className="fw-7">Filters</p>
-                    <a href="#">Clear</a>
+                    <button onClick = {() => dispatch({type:"RESET_FILTER"})} className = "filter-resetBtn">Reset</button>
                 </div>
                 <div className="price-range-container">
-                    <div className = "product-filter-heading">
                         <p className="fw-7">Price</p>
-                        <button onClick = {() => dispatch({type:"RESET_PRICE"})} className = "filter-resetBtn">Reset</button>
-                    </div>
                     
                 <div>
                     <div className="price-range-values">
@@ -66,10 +63,10 @@ export default function Filter({setCardDisplay}){
                 </div>
                 <div className="input-filter-container">
                     <p className="fw-7">Category</p>
-                    <ul className="check-lists" onChange = {(e) => dispatch({type:"CAT_FILTER",payload:e.target.value})}>
-                        <li><label htmlFor="men-category"><input type="radio" name = "gender-category"id="men-category" value = "Men"/>Mens Clothing</label></li>
-                        <li><label htmlFor="women-category"><input type="radio" name = "gender-category" id="women-category" value = "Women"/>Women Clothing</label></li>
-                        <li><label htmlFor="kids-category"><input type="radio" name = "gender-category" id="kids-category" value = "Kids"/>Kids Clothing</label></li>
+                    <ul className="check-lists">
+                        <li><label htmlFor="men-category"><input type="checkbox" id="men-category" value = "Men"  onChange = {(e) => dispatch({type:"CAT_Men",payload:e.target.value})}/>Mens Clothing</label></li>
+                        <li><label htmlFor="women-category"><input type="checkbox"  id="women-category" value = "Women"  onChange = {(e) => dispatch({type:"CAT_Women",payload:e.target.value})}/>Women Clothing</label></li>
+                        <li><label htmlFor="kids-category"><input type="checkbox"  id="kids-category" value = "Kids"  onChange = {(e) => dispatch({type:"CAT_Kids",payload:e.target.value})}/>Kids Clothing</label></li>
                     </ul>
                 </div>
                 <div className="input-filter-container">
@@ -85,7 +82,7 @@ export default function Filter({setCardDisplay}){
                     <p className="fw-7">Sort by</p>
                     <ul className="check-lists" onClick = {(e) => dispatch({type:"SORT_BY_PRICE",payload:e.target.value})}>
                           <li><label htmlFor="low-to-high"><input type="radio" name="sort-by" id="low-to-high" value = {"lowToHigh"}/>Price - Low to High</label></li>
-                          <li><label htmlFor="high-to-low"><input type="radio" name="sort-by" id="high-to-low" value = "highToLow"/>Price - High to Low</label></li>                        
+                          <li><label htmlFor="high-to-low"><input type="radio" name="sort-by" id="high-to-low" value = {"highToLow"}/>Price - High to Low</label></li>                        
                     </ul>
                     </div>
             </aside>

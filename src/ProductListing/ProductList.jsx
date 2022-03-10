@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./ProductList.css"
-import {useState} from "react"
-import {useWishCounter} from "../Context/WishlistCounter"
-import {useCartCounter} from "../Context/CartItemCounter"
-import { useCartContext } from "../Context/CartContext"
+import { useWishCounter, useCartContext, useCartCounter, useWish } from "../Context/context-index"
+import { decrementFunction, incrementFunction, addToCartFunction, addToWishlistFunction } from "./product-function/product-fun-index"
 
-
-
-import { useWish } from '../Context/WishIcon'
-import { decrementFunction } from './decrementCartItems'
-import { incrementFunction } from './incrementFunction'
-import { addToCartFunction } from './addToCartFunction'
-import { addToWishlistFunction } from './addToWishlistFunction'
 
 export default function ProductList({pInfo, wishPage}) {
   
@@ -58,7 +49,7 @@ export default function ProductList({pInfo, wishPage}) {
 
   return (
     <div className = "product-card">
-        <img src={pInfo.image} alt="mens Shirt" className="res-img"/>
+        <img src={pInfo.image} alt="mens Shirt" className="res-img product-img"/>
         <p>{pInfo.productBrand}</p>
         <p>{pInfo.productTitle}</p>
         <p>{pInfo.price}</p>

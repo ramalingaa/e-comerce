@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {PageContextProvider} from './Context/PageContext';
-import {IconProvider} from "./Context/WishIcon"
+import { PageContextProvider, IconProvider } from './Context/context-index';
 
 ReactDOM.render(
   <React.StrictMode>  
