@@ -6,7 +6,7 @@ export default function AddNewAddress({setPage}) {
       }
   return (
     <div className="add-new-button">
-              <button className="btn primary" onClick={openAddressForm}><i class="fas fa-plus addNewAddress-icon"></i>Add New Address</button >
+              <button className="btn primary" onClick={openAddressForm}><i className="fas fa-plus addNewAddress-icon"></i>Add New Address</button >
 
     </div>
   )

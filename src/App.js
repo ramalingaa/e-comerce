@@ -2,11 +2,10 @@ import './App.css';
 import NavBar from "./NavBar/NabBar"
 import Wishlist from "./Wishlist/Wishlist"
 import Product from "./ProductListing/Product"
-import {IconProvider, WishCounterProvider, CartCounterProvider, ProductProvider, CartProvider, usePage} from "./Context/context-index"
-
+import {IconProvider, WishCounterProvider, CartCounterProvider, ProductProvider, CartProvider, usePage, SingleProductPageProvider} from "./Context/context-index"
+import Address from "./Address/Address"
 import Cart  from "./Cart/Cart"
-
-
+import SingleProductCard from "./SingleProductPage/SingleProductCard"
 function App() {
   const {page, clickHandler} = usePage()
   return (
@@ -19,13 +18,16 @@ function App() {
         <CartCounterProvider>
         <CartProvider>
           <div>
-               
-
               <ProductProvider>
-                  <NavBar />
-                  {page === "Products" &&<Product />}
+                  
+                  <SingleProductPageProvider>
+                   <NavBar />
+                    {page === "Products" &&<Product />}
+                    {page === "SingleProduct" && <SingleProductCard />}
+                  </SingleProductPageProvider>
+                  
                </ProductProvider>
-
+            {page === "Address" && <Address />}
             {page === "Wishlist" &&<Wishlist />}
             {page === "Cart" &&<Cart />}
 
@@ -36,6 +38,9 @@ function App() {
         </IconProvider>
         </WishCounterProvider>
         
+         
+
+         
         
     </div>
     

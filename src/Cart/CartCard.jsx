@@ -1,5 +1,4 @@
 import React from 'react'
-import "./Cart.css"
 import  axios  from 'axios';
 import { useCartContext, useCartCounter, useWish, useWishCounter } from "../Context/context-index"
 import { incrementFunction } from "../ProductListing/product-function/product-fun-index"
@@ -71,7 +70,9 @@ export default function CartCard({pInfo}) {
       }
     })();
   }
-
+const updateProductSize = (e) => {
+  pInfo.size = e.target.value
+}
   return (
     <div className="cart-product-card-container">
         <div>
@@ -81,6 +82,16 @@ export default function CartCard({pInfo}) {
             <p>{pInfo.productBrand}</p>
             <p>{pInfo.productTitle}</p>
             <p>₹{pInfo.price}</p>
+            <div className="cart-size-wrapper">
+                <p>Size: </p>
+                <select onChange = {updateProductSize}>
+                  <option value = "S" selected = {pInfo.size === "S"}>S</option>
+                  <option value = "M" selected = {pInfo.size === "M"}>M</option>
+                  <option value = "L" selected = {pInfo.size === "L"}>L</option>
+                  <option  value = "XL" selected = {pInfo.size === "XL"}>XL</option>
+                </select>
+            </div>
+           
             <div className="cart-btn-wrapper">
                 <button className="quantity-btn" onClick = {decrementCartItems}><i className="fas fa-minus"></i></button>
                 <p>Quantity: {pInfo.quantity}</p>

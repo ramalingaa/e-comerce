@@ -4,3 +4,4 @@ export { PageContextProvider,usePage } from "./PageContext"
 export { useProductContext,ProductProvider } from "./ProductContext"
 export { IconProvider,useWish } from "./WishIcon"
 export { WishCounterProvider,useWishCounter } from "./WishlistCounter"
+export { useSingleProductPage, SingleProductPageProvider } from "./single-productPage-context";

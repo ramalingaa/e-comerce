@@ -1,4 +1,3 @@
-import './NavBar.css';
 import { useWishCounter, useCartCounter, useProductContext, usePage } from "../Context/context-index"
 
 

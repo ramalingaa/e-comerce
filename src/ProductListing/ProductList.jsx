@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import "./ProductList.css"
-import { useWishCounter, useCartContext, useCartCounter, useWish } from "../Context/context-index"
+import { useWishCounter, useCartContext, useCartCounter, useWish, usePage, useSingleProductPage } from "../Context/context-index"
 import { decrementFunction, incrementFunction, addToCartFunction, addToWishlistFunction } from "./product-function/product-fun-index"
 
 
@@ -16,6 +15,8 @@ export default function ProductList({pInfo, wishPage}) {
   const {wishData,setWishData} = useWish()
   const {setCartCounter} = useCartCounter()
   const { cartData, setCartData } = useCartContext()
+  const { setPage } = usePage()
+  const { setSingleProduct } = useSingleProductPage()
 
   
 
@@ -45,11 +46,15 @@ export default function ProductList({pInfo, wishPage}) {
     const incrementCartItems = incrementFunction(cartData, pInfo, cartItem, setCartData)
     //decrementing the quantity of cart items
     const decrementCartItems = decrementFunction(cartItem, cartData, pInfo, setCartData, setCartCounter, setIsCartItem)
-
+    // redirecting to single product page on click
+    const updateProductPage = () => {
+      setSingleProduct(() => pInfo)
+      setPage(() => "SingleProduct")
+    }
 
   return (
     <div className = "product-card">
-        <img src={pInfo.image} alt="mens Shirt" className="res-img product-img"/>
+        <img src={pInfo.image} alt="mens Shirt" className="res-img product-img" onClick = {updateProductPage}/>
         <p>{pInfo.productBrand}</p>
         <p>{pInfo.productTitle}</p>
         <p>{pInfo.price}</p>

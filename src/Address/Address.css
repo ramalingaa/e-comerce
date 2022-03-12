@@ -20,19 +20,33 @@
   .form-wrapper {
       width: 90%;
       margin: auto;
-      position: relative;
       padding: 1rem 0
   }
   .input-label {
+    position: relative;
+    display: inline-block;
+  }
+  .input-placeholder {
     position: absolute;
-    top: 15px;
-    padding: 0 0 0 1rem;
-    display:none
+    top:1rem;
+    left:1rem;
+    padding: 0.2rem;
+    transition: 0.2s;
+    background-color:white;
+    transition-timing-function: ease;
+    transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .input-name:focus + .input-placeholder, .input-name:not(:placeholder-shown) + .input-placeholder {
+    opacity: 1;
+    transform: scale(1) translateY(-110%) translateX(0%)
   }
  .i-text {
      padding: 1rem;
      font-size: inherit;
  }
+
 
  input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

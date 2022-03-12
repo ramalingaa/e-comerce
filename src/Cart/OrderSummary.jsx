@@ -1,11 +1,11 @@
 import React from 'react'
-import "./Cart.css"
-import { useCartCounter, useCartContext } from "../Context/context-index"
+import { useCartCounter, useCartContext, usePage } from "../Context/context-index"
 import { useState, useEffect } from 'react';
 
 export default function OrderSummary() {
     const { cartData } = useCartContext()
     const {cartCounter} = useCartCounter()
+    const { setPage } = usePage()
     const [orderPrice, setOrderPrice] = useState({totalPrice:0,discount:0,delivery:0})
 
     useEffect(() => {
@@ -16,9 +16,10 @@ export default function OrderSummary() {
         const deliveryPrice = TotalPrice > 700 ? 0 : 99
         setOrderPrice((prev) => ({...prev,totalPrice:TotalPrice,discount:discountPrice,delivery:deliveryPrice}))
     },[cartData])
-
-    
-
+   
+    const placeOrder = () => {
+        setPage(() => "Address")
+    }
   return (
     <div className = "order-summary-wrapper">
         <p className = "price-details-title price-title-border">PRICE DETAILS (<small>{cartCounter} Items</small>) </p>
@@ -38,7 +39,7 @@ export default function OrderSummary() {
             <p className = "price-details-title">Total Amount</p>
             <p>₹{orderPrice.totalPrice - orderPrice.discount}</p>
         </div>
-        <button className = "btn primary">PLACE ORDER</button>
+        <button className = "btn primary" onClick = {placeOrder}>PLACE ORDER</button>
     </div>
   )
 }

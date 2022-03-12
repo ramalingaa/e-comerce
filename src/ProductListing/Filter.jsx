@@ -1,4 +1,3 @@
-import './Filter.css';
 import {useState, useEffect} from "react"
 import {useMediaQuery} from "react-responsive"
 import { useProductContext } from "../Context/context-index"

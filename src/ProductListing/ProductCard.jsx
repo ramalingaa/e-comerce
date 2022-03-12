@@ -1,10 +1,8 @@
 import React from 'react'
-import "./ProductList.css"
 import Filter from './Filter'
 
 import { useState } from 'react'
 import ProductList from "./ProductList"
-import './Filter.css';
 
 
 
