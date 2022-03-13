@@ -1,6 +1,7 @@
 import React from 'react'
 import { useCartCounter, useCartContext, usePage } from "../Context/context-index"
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function OrderSummary() {
     const { cartData } = useCartContext()
@@ -17,9 +18,7 @@ export default function OrderSummary() {
         setOrderPrice((prev) => ({...prev,totalPrice:TotalPrice,discount:discountPrice,delivery:deliveryPrice}))
     },[cartData])
    
-    const placeOrder = () => {
-        setPage(() => "Address")
-    }
+   
   return (
     <div className = "order-summary-wrapper">
         <p className = "price-details-title price-title-border">PRICE DETAILS (<small>{cartCounter} Items</small>) </p>
@@ -39,7 +38,7 @@ export default function OrderSummary() {
             <p className = "price-details-title">Total Amount</p>
             <p>₹{orderPrice.totalPrice - orderPrice.discount}</p>
         </div>
-        <button className = "btn primary" onClick = {placeOrder}>PLACE ORDER</button>
+        <Link to = "/Address" className = "btn primary order-btn">PLACE ORDER</Link>
     </div>
   )
 }

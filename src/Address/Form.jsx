@@ -1,5 +1,5 @@
 import "./Address.css";
-import { useReducer } from "react";
+import {  useState } from "react";
 import axios from "axios";
 
 export default function Form({
@@ -14,109 +14,89 @@ export default function Form({
   editFormClass = ""
 }) {
 
-  const [state, dispatch] = useReducer(formReducer, {
-    formData: formObject,
-    errorData: {}
-  });
-console.log("form is running")
-  //reducer function for form
-  function formReducer(state, action) {
-    switch(action.type){
-      case "handleChange": {
-                                const { name } = action.event.target;
-                                return {
-                                  ...state,
-                                  formData: { ...state.formData, [name]: action.event.target.value }
-                                };
+ 
+  const [error, setError] = useState({})
+  const [formData, setFormData] = useState(formObject)
 
-                            }
-                            
-      case "handleSubmit": {
-                              action.payload.preventDefault();
-                              const validate = () => {
-                                const err = {};
-                                if (!state.formData.name) {
-                                  err["name"] = "name is needed*";
-                                }
-                                if (!state.formData.mobile ||!Number(state.formData.mobile)) {
-                                  err["mobile"] = "Enter valid mobile number*";
-                                }
-                                if (!state.formData.pincode || !Number(state.formData.pincode)) {
-                                  err["pincode"] = "Enter valid pincode number*";
-                                }
-                                if (!state.formData.address) {
-                                  err["address"] = "address is needed*";
-                                }
-                                if (!state.formData.locality) {
-                                  err["locality"] = "locality is needed*";
-                                }
-                                if (!state.formData.district) {
-                                  err["district"] = "district is needed*";
-                                }
-                                if (!state.formData.state) {
-                                  err["state"] = "state is needed*";
-                                }
-                                return err;
-                              };
-                              state.errorData = validate();
-
-                              if (Object.keys(state.errorData).length > 0) {
-                                return { ...state, errorData: validate() };
-                              }
-                              else {
-                                      if(edit){
-                                                (async ()=>{
-                                                  try {          
-                                                        const addressUpdated = address.map((ele)=>
-                                                        ele.id === editElement.id ? state.formData : ele)
-                                                        const serverResponse = await axios.put(`https://6217d5f51a1ba20cba924689.mockapi.io/api/address/${editElement.id}`,{...state.formData})
-                                                        if(serverResponse.status === 200){
-                                                          setAddress(addressUpdated)
-                                                          setEdit(false)
-                                                        }
-                                                        return { ...state, errorData: {} };
-                                                  }
-                                                  catch(e){
-                                                          console.log("data update failed")
-                                                          return { ...state, errorData: {} }
-                                                  }
-                                                })()
-                                                return { ...state, errorData: {} }
-                                         
-                                        }
-                                        else {
-                                          (async ()=>{
-                                            try {   
-                                                     
-                                                  const serverResponse = await axios.post("https://6217d5f51a1ba20cba924689.mockapi.io/api/address", state.formData)
-                                                  console.log("Post is running", serverResponse)
-                                                    setAddress((prev)=>[...prev, serverResponse.data]) 
-                                                    // setPage(false)
-                                                      
-                                                    // return { ...state, errorData: {} };
-                                                  
-                                                }
-                                            catch(e){
-                                                    console.log("data uploading failed")
-                                                    // return { ...state, errorData: {} };
-                                            }
-                                          })()
-                                          return { ...state, errorData: {} };
-                                      }
-                                    
-                              }
-                            
-                            }
-      default: {
-        console.log("action failed")
-      }
-    }
+  const updateFormData = (e) => {
+    const {name} = e.target
+    setFormData((prev) => ({...prev, [name]: e.target.value}))
   }
  const cancelForm = ()  => {
     edit ? setEdit(false) : setPage(false)
  }
+ const validate = () => {
+  const err = {};
+  if (!formData.name) {
+    err["name"] = "name is needed*";
+  }
+  if (!formData.mobile ||!Number(formData.mobile)) {
+    err["mobile"] = "Enter valid mobile number*";
+  }
+  if (!formData.pincode || !Number(formData.pincode)) {
+    err["pincode"] = "Enter valid pincode number*";
+  }
+  if (!formData.address) {
+    err["address"] = "address is needed*";
+  }
+  if (!formData.locality) {
+    err["locality"] = "locality is needed*";
+  }
+  if (!formData.district) {
+    err["district"] = "district is needed*";
+  }
+  if (!formData.state) {
+    err["state"] = "state is needed*";
+  }
+  return err;
+};
+ const formSubmit = (e) => {
+   
+  e.preventDefault()
+  const errorObject = validate()
+  if (Object.keys(errorObject).length > 0) {
+    setError(errorObject)
+  }
+   else {
+        if(edit){
+          (async ()=>{
+            try {          
+                  const addressUpdated = address.map((ele)=>
+                  ele.id === editElement.id ? formData : ele)
+                  const serverResponse = await axios.put(`https://6217d5f51a1ba20cba924689.mockapi.io/api/address/${editElement.id}`,formData)
+                  if(serverResponse.status === 200){
+                    setAddress(addressUpdated)
+                    setEdit(false)
+                  }
+                  
+            }
+            catch(e){
+                    console.log("data update failed",e)
+                    
+            }
+          })()
+        }
+        else {
+              (async ()=>{
+                
+                try {   
+                      const serverResponse = await axios.post("https://6217d5f51a1ba20cba924689.mockapi.io/api/address", formData)
+            
+                        setAddress((prev)=>[serverResponse.data,...prev]) 
+                        setPage(false)
+                          
+                      
+                    }
+                catch(e){
+                        console.log("data uploading failed")
+                }
+              })()
+        }
+   }
+  
+ }
   return (
-    <form onSubmit={(e) => dispatch({ type: "handleSubmit", payload: e })} className={`form-wrapper form-flex ${editFormClass}`}>
+    <form onSubmit={formSubmit} className={`form-wrapper form-flex ${editFormClass}`}>
       <div className="form-flex">
           <strong>Contact Details</strong>
           <div className="form-input">
@@ -127,13 +107,13 @@ console.log("form is running")
               id="name"
               name="name"
               defaultValue={editElement.name}
-              onChange={(e) => dispatch({ type: "handleChange", event: e })}
+              onChange={updateFormData}
               placeholder = " "
             />
               <span className = "input-placeholder">Name</span>
               </label>
             
-            {state.errorData.name && <p className="error-message">{state.errorData.name}</p>}
+            <p className="error-message">{error.name}</p>
           </div>
           <div className="form-input">
             <label htmlFor="mobile" className = "input-label">
@@ -145,13 +125,13 @@ console.log("form is running")
               id="mobile"
               name="mobile"
               defaultValue={editElement.mobile}
-              onChange={(e) => dispatch({ type: "handleChange", event: e })}
+              onChange={updateFormData}
               placeholder = " "
             />
               <span className = "input-placeholder">Mobile</span>
             </label>
             
-            <p className="error-message">{state.errorData.mobile}</p>
+            <p className="error-message">{error.mobile}</p>
           </div>
       </div>
       <div className="form-flex">
@@ -166,14 +146,14 @@ console.log("form is running")
               id="pincode"
               name="pincode"
               defaultValue={editElement.pincode}
-              onChange={(e) => dispatch({ type: "handleChange", event: e })}
+              onChange={updateFormData}
               placeholder = " "
             />
             <span className = "input-placeholder">Pin Code</span>
 
             </label>
             
-            <p className="error-message">{state.errorData.pincode}</p>
+            <p className="error-message">{error.pincode}</p>
           </div>
           <div className="form-input">
             <label htmlFor="address" className = "input-label">
@@ -183,13 +163,13 @@ console.log("form is running")
               id="address"
               name="address"
               defaultValue={editElement.address}
-              onChange={(e) => dispatch({ type: "handleChange", event: e })}
+              onChange={updateFormData}
               placeholder = " "
             />
             <span className = "input-placeholder">Address(H.No, Street & Landmark)</span>
             </label>
             
-            <p className="error-message">{state.errorData.address}</p>
+            <p className="error-message">{error.address}</p>
           </div>
           <div className="form-input">
             <label htmlFor="locality" className = "input-label">
@@ -199,14 +179,14 @@ console.log("form is running")
               id="locality"
               name="locality"
               defaultValue={editElement.locality}
-              onChange={(e) => dispatch({ type: "handleChange", event: e })}
+              onChange={updateFormData}
               placeholder = " "
 
             />
             <span className = "input-placeholder">Locality</span>
             </label>
             
-            <p className="error-message">{state.errorData.locality}</p>
+            <p className="error-message">{error.locality}</p>
           </div>
           <div className="form-input">
             <label htmlFor="district" className = "input-label">
@@ -216,7 +196,7 @@ console.log("form is running")
               id="district"
               name="district"
               defaultValue={editElement.district}
-              onChange={(e) => dispatch({ type: "handleChange", event: e })}
+              onChange={updateFormData}
               placeholder = " "
 
             />
@@ -224,7 +204,7 @@ console.log("form is running")
 
               </label>
             
-            <p className="error-message">{state.errorData.district}</p>
+            <p className="error-message">{error.district}</p>
           </div>
           <div className="form-input">
             <label htmlFor="state" className = "input-label">
@@ -234,13 +214,13 @@ console.log("form is running")
               id="state"
               name="state"
               defaultValue={editElement.state}
-              onChange={(e) => dispatch({ type: "handleChange", event: e })}
+              onChange={updateFormData}
               placeholder = " "
             />
             <span className = "input-placeholder">State</span>
               </label>
            
-            <p className="error-message">{state.errorData.state}</p>
+            <p className="error-message">{error.state}</p>
           </div>
 
       </div>

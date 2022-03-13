@@ -12,7 +12,7 @@ export default function ProductCard({serverData}) {
   return (
     <div className="product-container-main">
         <Filter setCardDisplay = {setCardDisplay}/>
-        <div>
+        <div className ="product-title-wrapper">
         <p className="products-number-title"><strong>Showing All Products</strong> <small>({serverData.length} Products)</small> </p>
         
         <div className = {cardDisplay}>

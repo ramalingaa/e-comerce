@@ -2,7 +2,8 @@
   .address-wrapper-main {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 90%;
+    margin: auto;
   }
   .form-input {
     position: relative;
@@ -13,7 +14,10 @@
     align-items: center;
     gap: 1rem;
   }
-
+.form-card-btnWrapper {
+  display: flex;
+  gap: 1rem;
+}
   .error-message {
     color: red;
   }
@@ -25,6 +29,9 @@
   .input-label {
     position: relative;
     display: inline-block;
+  }
+  .input-name {
+    padding: 1rem;
   }
   .input-placeholder {
     position: absolute;
@@ -42,10 +49,7 @@
     opacity: 1;
     transform: scale(1) translateY(-110%) translateX(0%)
   }
- .i-text {
-     padding: 1rem;
-     font-size: inherit;
- }
+ 
 
 
  input::-webkit-outer-spin-button,
@@ -60,7 +64,6 @@ input::-webkit-inner-spin-button {
 /* address card csse */
 
 .address-card-container {
-    background-color: rgb(219, 219, 219);
     padding: 1rem;
     display:flex;
     flex-direction: column;
@@ -68,6 +71,7 @@ input::-webkit-inner-spin-button {
     align-items: flex-start;
     text-transform: capitalize;
     margin: 0.5rem 0;
+    border: 1px solid var(--div-background-color);
 
 }
 .saved-address {
@@ -80,9 +84,11 @@ input::-webkit-inner-spin-button {
   position: fixed;
   top: 0;
   left: 0;
+  right:0;
   width: 100%;
-  background:rgb(192, 190, 190);
+  background:rgb(247, 245, 245);
   height: 100%;
+  padding: 3rem;
 }
 .edit-form >form > div> div > input {
   width:100%;
@@ -108,6 +114,15 @@ input::-webkit-inner-spin-button {
 
 }
 .saved-address-wrapper {
-  width: 20rem;
+  width: 80%;
   margin: auto;
+  border: 1px solid var(--div-background-color);
+  padding:1rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .address-card-wrapper {
+    display: flex;
+    gap: 1rem;
+  }
 }

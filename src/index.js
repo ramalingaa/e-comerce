@@ -1,17 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { PageContextProvider, IconProvider } from './Context/context-index';
+import { PageContextProvider, IconProvider, WishCounterProvider, CartCounterProvider, CartProvider } from './Context/context-index';
+import {BrowserRouter as Router} from "react-router-dom"
 
 ReactDOM.render(
   <React.StrictMode>  
+    <Router>
       <PageContextProvider>
       <IconProvider>
+      <WishCounterProvider> 
+        <IconProvider>
+        <CartCounterProvider>
+        <CartProvider>
+          <App />
+        </CartProvider>
+        </CartCounterProvider>
 
-        <App />
+      </IconProvider>
+      </WishCounterProvider>
         </IconProvider>
 
       </PageContextProvider>
+      </Router>
   </React.StrictMode>,
   
     

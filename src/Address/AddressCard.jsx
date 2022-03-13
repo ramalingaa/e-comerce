@@ -25,9 +25,9 @@ export default function AddressCard({
         <p>{ele.address}, {ele.locality}</p>
         <p>{ele.district}, {ele.state.toUpperCase()}- {ele.pincode}</p>
         <p>Mobile: {ele.mobile}</p>
-        <div>
-            <button onClick={editClickHandler} className = "btn">Edit</button>
-            <button onClick={deleteAddress} className = "btn">Delete</button>
+        <div className="form-card-btnWrapper">
+            <button onClick={editClickHandler} className = "btn outlined">Edit</button>
+            <button onClick={deleteAddress} className = "btn outlined">Delete</button>
         </div>
        
       </div>

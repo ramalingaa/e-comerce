@@ -13,12 +13,14 @@ const ProductProvider = ({children}) => {
         sortBy:"",
         priceRange: 5000,
         category: {men:false,women:false,kids:false},
-        rating: ""
+        rating: "",
+        search: ""
 
     }})
 
     
     //filter data flow functions
+    
     const navSearchData = getSearchData(state.data, state.filter.search)
     const sortedData = getSortedData(navSearchData, (state.filter.sortBy))
     const priceFilterData = getPriceFilteredData(sortedData,state.filter.priceRange)

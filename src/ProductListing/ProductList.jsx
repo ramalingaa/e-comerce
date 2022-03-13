@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useWishCounter, useCartContext, useCartCounter, useWish, usePage, useSingleProductPage } from "../Context/context-index"
 import { decrementFunction, incrementFunction, addToCartFunction, addToWishlistFunction } from "./product-function/product-fun-index"
+import { Link } from 'react-router-dom';
 
 
 export default function ProductList({pInfo, wishPage}) {
@@ -49,12 +50,11 @@ export default function ProductList({pInfo, wishPage}) {
     // redirecting to single product page on click
     const updateProductPage = () => {
       setSingleProduct(() => pInfo)
-      setPage(() => "SingleProduct")
     }
 
   return (
     <div className = "product-card">
-        <img src={pInfo.image} alt="mens Shirt" className="res-img product-img" onClick = {updateProductPage}/>
+        <Link to = "/SPP"><img src={pInfo.image} alt="mens Shirt" className="res-img product-img" onClick = {updateProductPage}/></Link>
         <p>{pInfo.productBrand}</p>
         <p>{pInfo.productTitle}</p>
         <p>{pInfo.price}</p>

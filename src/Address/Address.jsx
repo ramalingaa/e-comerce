@@ -4,6 +4,7 @@ import SavedAddress from "./SavedAddress";
 import { useState,useEffect } from "react";
 import AddNewAddress from "./AddNewAddress";
 import axios from "axios";
+import OrderSummary from "../Cart/OrderSummary"
 
 
 
@@ -31,42 +32,50 @@ export default function Address() {
   return (
     <div className="address-wrapper-main">
       <AddNewAddress setPage = {setPage}/>
-      {page && (
-        <Form
-          setPage={setPage}
-          setAddress={setAddress}
-          formObject={formObject}
-        />
-      )}
-      
-        <div className="saved-address-wrapper">
-            <SavedAddress
-              address={address}
-              setPage={setPage}
-              setEditElement={setEditElement}
-              setAddress={setAddress}
-              setEdit = {setEdit}
-            />
-
-        </div>
-      
       <div>
-          {edit && (
-              <Form
-                setPage={setPage}
-                setAddress={setAddress}
-                editElement={editElement}
-                formObject={editElement}
-                address = {address}
-                edit = {edit}
-                setEdit = {setEdit}
-                btnText = "Update Address"
-                editFormClass = "edit-form"
-              />
-            )}
-      </div>
+              {edit && (
+                  <Form
+                    setPage={setPage}
+                    setAddress={setAddress}
+                    editElement={editElement}
+                    formObject={editElement}
+                    address = {address}
+                    edit = {edit}
+                    setEdit = {setEdit}
+                    btnText = "Update Address"
+                    editFormClass = "edit-form"
+                  />
+                )}
+          </div>
+      {page && (
+            <Form
+              setPage={setPage}
+              setAddress={setAddress}
+              formObject={formObject}
+            />
+          )}
+        <div className = "address-card-wrapper">
+          
+          
+          
+            <div className="saved-address-wrapper">
+                <SavedAddress
+                  address={address}
+                  setPage={setPage}
+                  setEditElement={setEditElement}
+                  setAddress={setAddress}
+                  setEdit = {setEdit}
+                />
 
-       
+            </div>
+          
+         
+          <div>
+            <OrderSummary />
+          </div>
+          
+        </div>
+        
     </div>
   );
 }

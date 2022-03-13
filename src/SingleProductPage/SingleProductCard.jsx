@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from "axios"
 import { useSingleProductPage, useCartContext, useWish, useWishCounter, useCartCounter, usePage } from "../Context/context-index"
 import { addToCartFunction } from "../ProductListing/product-function/product-fun-index"
+import { Link } from 'react-router-dom';
 const SingleProductCard = () => {
     const [wishlistBtn, setWishlistBtn] = useState("Wishlist")
     const [cartBtn, setCartBtn] = useState("Add to Cart")
@@ -53,9 +54,7 @@ const SingleProductCard = () => {
 
   return (
     <div className = "single-product-wrapper">
-        <div>
             <img src = {image} alt = "product" className = "res-img product-pageImg"/>
-        </div>
         <div className = "single-product-text">
             <p>{productTitle} by <strong>{productBrand}</strong></p>
             <p>Rating: {rating} <i className="fas fa-star rating-icon"></i></p>
@@ -70,7 +69,7 @@ const SingleProductCard = () => {
             </div>
             <div className="button-wrapper">
                 {wishlistBtn === "Wishlist" ? <button className = "btn outlined product-page-btn" onClick={addToWishlist}>{wishlistBtn}</button> :<button className = "btn outlined product-page-btn disabled" disabled>{wishlistBtn}</button>}
-                {cartBtn === "Add to Cart" ? <button className = "btn primary product-page-btn"onClick={addToCart}>{cartBtn}</button> : <button className = "btn primary product-page-btn" onClick = {goToCart}>{cartBtn}</button>}
+                {cartBtn === "Add to Cart" ? <button className = "btn primary product-page-btn"onClick={addToCart}>{cartBtn}</button> : <Link to = "/Cart" className = "cart-link-align"><button className = "btn primary product-page-btn" onClick = {goToCart}>{cartBtn}</button></Link>}
             </div>
             <p>Sold by {productBrand} Pvt.ltd</p>
             <p><i className="fal fa-truck-moving product-info-icon"></i><strong> Get it by time { new Date().getDate() + 5 }-{ new Date().getMonth() + 1 }-{ new Date().getFullYear()}</strong></p>
@@ -78,15 +77,16 @@ const SingleProductCard = () => {
             {Number(price) < 1000 ? <p><i className="far fa-hand-holding-box product-info-icon"></i><strong>Pay on delivery is available</strong></p> : <p><i className="far fa-hand-holding-box product-info-icon"></i><strong> This item is not eligible for Pay on Delivery</strong></p>}
             <p><i className="fal fa-sync-alt product-info-icon"></i><strong>Easy 30 days return & exchange available</strong></p>
             <p><i className="fas fa-badge-check product-info-icon secure-icon"></i>100% Original Products</p>
+            <div className="product-details-wrapper">
+              <h2>Product Details</h2>
+              <p>{productTitle} by {productBrand}</p>
+              <h3>Size & Fit</h3>
+              <p>The model (height 6') is wearing a size M</p>
+              <h3>Material & Care</h3>
+              <p>100% cotton Machine-wash</p>
         </div>
-        <div className="product-details-wrapper">
-            <h2>Product Details</h2>
-            <p>{productTitle} by {productBrand}</p>
-            <h3>Size & Fit</h3>
-            <p>The model (height 6') is wearing a size M</p>
-            <h3>Material & Care</h3>
-            <p>100% cotton Machine-wash</p>
         </div>
+        
     </div>
   )
 }
