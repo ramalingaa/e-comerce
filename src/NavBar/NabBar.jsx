@@ -26,9 +26,10 @@ export default function Navbar() {
           onChange = {(e) => dispatch({type:"SEARCH_FILTER", payload:e.target.value})} onKeyPress={(e) => e.key === "Enter" && setPage(() => "Products")}/>
         </div>
         <div className="navbar-cart">
-          <button className="btn primary">
-            <a href="../Login-page/login.html">Login</a>
-          </button>
+          
+          <Link to = "/Authentication"><button className="btn primary">
+          Login
+          </button></Link>
           <Link to = "/Wishlist" ><div className="page-links wish-list">Wishlist
             <i className="far fa-heart nav-icon wish-icon"></i> <p className="wish-counter">{wishCounter}</p>
           </div></Link>

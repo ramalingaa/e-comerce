@@ -8,6 +8,7 @@ import Cart  from "./Cart/Cart"
 import SingleProductCard from "./SingleProductPage/SingleProductCard"
 import { Routes, Route} from "react-router-dom"
 import Home from "./Home/Home"
+import Login from "./Authentication/Login"
 function App() {
   return (
     <div className="App">
@@ -21,10 +22,11 @@ function App() {
           </SingleProductPageProvider>
       </ProductProvider>
       <Routes>
+        <Route path = "/" element = {<Home />}/>
         <Route path = "/Wishlist" element = {<Wishlist />}/>
         <Route path = "/Cart" element = {<Cart />}/>
         <Route path = "/Address" element = {<Address />}/>
-        <Route path = "/" element = {<Home />}/>
+        <Route path = "/Authentication" element = {<Login />}/>
       </Routes>
       
 
